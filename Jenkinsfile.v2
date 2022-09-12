@@ -8,7 +8,6 @@ node {
    stage('test') {
      def myTestContainer = docker.image('node:16')
      myTestContainer.pull()
-     org.jenkinsci.plugins.durabletask.BourneShellScript.LAUNCH_DIAGNOSTICS=true
      myTestContainer.inside {
        sh 'echo "hello"'
        sh 'npm install --only=dev'
