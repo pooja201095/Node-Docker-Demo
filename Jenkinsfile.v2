@@ -6,7 +6,7 @@ node {
      commit_id = readFile('.git/commit-id').trim()
    }
    stage('test') {
-      docker.image('node:16').inside{
+      docker.image('node:16').inside("--entrypoint=''"){
        sh 'echo Hello'
       }
    }
