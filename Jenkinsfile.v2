@@ -10,12 +10,14 @@ node {
       sh 'docker ps -aqf "name=jenkins" > .git/container-id'
       jenkinsContainerID = readFile('.git/container-id').trim()
       echo "Id is ${jenkinsContainerID}"
-      def myTestContainer = docker.image('node:16')
-      myTestContainer.pull()
-      myTestContainer.inside[-v jenkinsContainerID:/var/jenkins_home/workspace/nodejs-dockercontainerpipeline] {
-       sh 'npm install --only=dev'
-       sh 'npm test'
-     }
+      docker.withServer("unix:///var/run/docker.sock"){
+         def myTestContainer = docker.image('node:16')
+         myTestContainer.pull()
+         myTestContainer.inside {
+            sh 'npm install --only=dev'
+            sh 'npm test'
+         }
+      }
    }
    stage('test with a DB') {
      def mysql = docker.image('mysql').run("-e MYSQL_ALLOW_EMPTY_PASSWORD=yes") 
