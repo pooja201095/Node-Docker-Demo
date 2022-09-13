@@ -10,7 +10,7 @@ node {
       sh 'docker ps -aqf "name=jenkins" > .git/container-id'
       jenkinsContainerID = readFile('.git/container-id').trim()
       echo "Id is ${jenkinsContainerID}"
-      docker.withServer("http://localhost:8080/"){
+      docker.withServer("host.docker.internal"){
          def myTestContainer = docker.image('node:16')
          myTestContainer.pull()
          myTestContainer.inside {
