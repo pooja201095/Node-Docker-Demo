@@ -1,11 +1,10 @@
 node {
    def commit_id
-   def projectName = docker ps -aqf "name=jenkins"
    stage('Preparation') {
      checkout scm
      sh "git rev-parse --short HEAD > .git/commit-id"
      commit_id = readFile('.git/commit-id').trim()
-     sh 'echo ${projectName}'
+     sh 'docker ps -aqf "name=jenkins"'
      sh 'docker ps -a'
    }
    stage('test') {
