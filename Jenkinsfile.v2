@@ -9,7 +9,7 @@ node {
       def jenkinsContainerID
       sh 'docker ps -aqf "name=jenkins" > .git/container-id'
       jenkinsContainerID = readFile('.git/container-id').trim()
-      sh 'echo ${jenkinsContainerID}'
+      sh 'echo $jenkinsContainerID'
       def myTestContainer = docker.image('node:16')
       myTestContainer.pull()
       myTestContainer.inside {
