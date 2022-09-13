@@ -4,10 +4,12 @@ node {
      checkout scm
      sh "git rev-parse --short HEAD > .git/commit-id"
      commit_id = readFile('.git/commit-id').trim()
-     sh 'docker ps -aqf "name=jenkins"'
-     sh 'docker ps -a'
    }
    stage('test') {
+      def jenkinsContainerID
+      sh 'docker ps -aqf "name=jenkins" > .git/container-id'
+      jenkinsContainerID = readFile('.git/container-id').trim()
+      sh 'echo ${jenkinsContainerID}'
       def myTestContainer = docker.image('node:16')
       myTestContainer.pull()
       myTestContainer.inside {
