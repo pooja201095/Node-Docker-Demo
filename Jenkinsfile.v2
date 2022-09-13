@@ -12,7 +12,7 @@ node {
       echo "Id is ${jenkinsContainerID}"
       def myTestContainer = docker.image('node:16')
       myTestContainer.pull()
-      myTestContainer.inside[-v ${jenkinsContainerID}:/var/jenkins_home/workspace/nodejs-dockercontainerpipeline] {
+      myTestContainer.inside[-v jenkinsContainerID:/var/jenkins_home/workspace/nodejs-dockercontainerpipeline] {
        sh 'npm install --only=dev'
        sh 'npm test'
      }
