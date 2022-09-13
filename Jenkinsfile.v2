@@ -7,8 +7,7 @@ node {
    }
    stage('test') {
       docker.image('node:16').inside{
-       sh 'npm install --only=dev'
-       sh 'npm test'
+       sh 'echo Hello'
       }
    }
    stage('test with a DB') {
