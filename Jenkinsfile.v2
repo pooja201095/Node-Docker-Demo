@@ -10,10 +10,8 @@ node {
       sh 'docker ps -aqf "name=jenkins" > .git/container-id'
       jenkinsContainerID = readFile('.git/container-id').trim()
       echo "Id is ${jenkinsContainerID}"
-      docker.withServer("192.168.65.0/24"){
-         def myTestContainer = docker.image('node:16')
-         myTestContainer.pull()
-         myTestContainer.inside {
+      docker.withServer("unix:///var/run/docker.sock"){
+         def myTestContainer = docker.image('node:16').inside {
             sh 'npm install --only=dev'
             sh 'npm test'
          }
